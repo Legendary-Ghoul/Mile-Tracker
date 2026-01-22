@@ -18,23 +18,42 @@ class MileageTracker {
   init() {
     // Set today's date as default
     const today = new Date().toISOString().split("T")[0];
-    document.getElementById("start-date").value = today;
-    document.getElementById("end-date").value = today;
+    if (document.getElementById("start-date")) {
+      document.getElementById("start-date").value = today;
+    }
+    if (document.getElementById("end-date")) {
+      document.getElementById("end-date").value = today;
+    }
 
     // Set current time as default
     const now = new Date();
     const timeStr = `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
-    document.getElementById("start-time").value = timeStr;
-    document.getElementById("end-time").value = timeStr;
+    if (document.getElementById("start-time")) {
+      document.getElementById("start-time").value = timeStr;
+    }
+    if (document.getElementById("end-time")) {
+      document.getElementById("end-time").value = timeStr;
+    }
 
     // Event listeners
-    this.startForm.addEventListener("submit", (e) => this.handleStartTrip(e));
-    this.endForm.addEventListener("submit", (e) => this.handleEndTrip(e));
-    this.exportBtn.addEventListener("click", () => this.exportCSV());
-    this.clearBtn.addEventListener("click", () => this.clearAllData());
+    if (this.startForm) {
+      this.startForm.addEventListener("submit", (e) => this.handleStartTrip(e));
+    }
+    if (this.endForm) {
+      this.endForm.addEventListener("submit", (e) => this.handleEndTrip(e));
+    }
+    if (this.exportBtn) {
+      this.exportBtn.addEventListener("click", () => this.exportCSV());
+    }
+    if (this.clearBtn) {
+      this.clearBtn.addEventListener("click", () => this.clearAllData());
+    }
 
-    // Update active trip select when it opens
-    this.activeTripSelect.addEventListener("click", () => this.updateActiveTripSelect());
+    if (this.activeTripSelect) {
+      this.activeTripSelect.addEventListener("click", () =>
+        this.updateActiveTripSelect()
+      );
+    }
 
     // Initial render
     this.render();
@@ -334,4 +353,8 @@ class MileageTracker {
   }
 }
 
-const tracker = new MileageTracker();
+// Wait for DOM to be ready
+document.addEventListener("DOMContentLoaded", () => {
+  const tracker = new MileageTracker();
+  window.tracker = tracker; // Make it global for onclick handlers
+});
