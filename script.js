@@ -37,7 +37,9 @@ class MileageTracker {
 
     // Event listeners
     if (this.startForm) {
-      this.startForm.addEventListener("submit", (e) => this.handleStartTrip(e));
+      this.startForm.addEventListener("submit", (e) =>
+        this.handleStartTrip(e)
+      );
     }
     if (this.endForm) {
       this.endForm.addEventListener("submit", (e) => this.handleEndTrip(e));
@@ -88,7 +90,6 @@ class MileageTracker {
       purpose: document.getElementById("purpose").value.trim(),
     };
 
-    console.log("Starting trip:", trip);
     this.activeTrips.unshift(trip);
     this.saveActiveTrips();
     this.startForm.reset();
@@ -106,14 +107,8 @@ class MileageTracker {
   handleEndTrip(e) {
     e.preventDefault();
 
-    console.log("Active trip select value:", this.activeTripSelect.value);
-    console.log("Active trips:", this.activeTrips);
-
     const tripId = parseInt(this.activeTripSelect.value);
-    console.log("Parsed trip ID:", tripId);
-
     const activeTrip = this.activeTrips.find((t) => t.id === tripId);
-    console.log("Found trip:", activeTrip);
 
     if (!activeTrip) {
       alert("Please select a valid trip");
@@ -137,8 +132,6 @@ class MileageTracker {
       endOdometer: endOdometer,
       miles: parseFloat(miles.toFixed(1)),
     };
-
-    console.log("Completed trip:", completedTrip);
 
     // Remove from active
     this.activeTrips = this.activeTrips.filter((t) => t.id !== tripId);
@@ -188,8 +181,6 @@ class MileageTracker {
   }
 
   updateActiveTripSelect() {
-    console.log("Updating active trip select with trips:", this.activeTrips);
-
     const options = this.activeTrips
       .map(
         (trip) =>
@@ -199,8 +190,6 @@ class MileageTracker {
 
     this.activeTripSelect.innerHTML =
       '<option value="">Select a trip to end...</option>' + options;
-
-    console.log("Dropdown HTML:", this.activeTripSelect.innerHTML);
   }
 
   calculateTotal() {
